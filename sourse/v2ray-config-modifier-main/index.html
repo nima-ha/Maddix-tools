@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>V2Ray Config Modifier</title>
+    <meta name="description" content="A tool for modifying V2Ray configs">
+    <meta name="theme-color" content="#0d6efd">
+    <link href="assets/css/bootstrap.min.css?v=5.3.3" rel="stylesheet">
+    <link href="assets/css/style.css?v=1.2" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand me-0" href="https://seramo.github.io/v2ray-config-modifier/">V2Ray Config Modifier</a>
+        <ul class="navbar-nav px-0">
+            <li class="nav-item">
+                <a class="nav-link" href="https://youtu.be/J9g1kbdW8Oc/" target="_blank">Tutorial</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link pe-0" href="https://github.com/seramo/v2ray-config-modifier/" target="_blank">GitHub</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="alert" role="alert" id="messageBox" style="display: none;">
+                <span id="messageText"></span>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <label for="inputConfig" class="form-label">Config</label>
+            <textarea id="inputConfig" class="form-control" rows="3" placeholder="Enter VLESS, VMESS, WireGuard, or Trojan configs (one per line)"></textarea>
+        </div>
+
+        <div class="col-12 mt-3">
+            <label for="inputType" class="form-label">Input Type</label>
+            <select id="inputType" class="form-control" onchange="toggleInputFields()">
+                <option value="cidr">IP Ranges</option>
+                <option value="list">IP List</option>
+                <option value="configList">Configs List</option>
+                <option value="sniSpoof">SNI Spoof</option>
+            </select>
+        </div>
+
+        <div class="col-12 mt-3" id="cidrFields">
+            <label for="ipRange" class="form-label">IP Ranges (CIDR)</label>
+            <button onclick="loadIPRanges('cloudflare')" class="badge bg-cloudflare border-0 ms-1">Cloudflare</button>
+            <button onclick="loadIPRanges('gcore')" class="badge bg-gcore border-0 ms-1">Gcore</button>
+            <button onclick="loadIPRanges('fastly')" class="badge bg-fastly border-0 ms-1">Fastly</button>
+            <textarea id="ipRange" class="form-control" rows="4" placeholder="Each IP range on a new line"></textarea>
+            <label for="outputCount" class="form-label mt-3">Number of outputs: <span id="outputCountValue">5000</span></label>
+            <input type="range" class="form-range" min="100" max="50000" step="100" id="outputCount" value="5000" oninput="updateOutputCountValue()">
+        </div>
+
+        <div class="col-12 mt-3" id="listFields" style="display: none;">
+            <label for="ipList" class="form-label">IP List</label>
+            <textarea id="ipList" class="form-control" rows="8" placeholder="Each IP on a new line"></textarea>
+        </div>
+
+        <div class="col-12 mt-3" id="configListFields" style="display: none;">
+            <label for="configList" class="form-label">Configs List</label>
+            <textarea id="configList" class="form-control" rows="8" placeholder="Each config on a new line"></textarea>
+        </div>
+
+        <div class="col-12 mt-3" id="sniSpoofFields" style="display: none;">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="spoofIp" class="form-label">Spoof IP</label>
+                    <input type="text" id="spoofIp" class="form-control" value="127.0.0.1" placeholder="e.g. 127.0.0.1">
+                </div>
+                <div class="col-md-6 mt-3 mt-md-0">
+                    <label for="spoofPort" class="form-label">Spoof Port</label>
+                    <input type="number" id="spoofPort" class="form-control" value="40443" placeholder="e.g. 40443">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 mt-4">
+            <button onclick="generateConfigs()" class="btn btn-primary">Generate Configs</button>
+            <button onclick="copyToClipboard()" class="btn btn-secondary px-4" id="copyButton" style="display: none;">Copy</button>
+            <button onclick="downloadOutput()" class="btn btn-success px-4" id="downloadButton" style="display: none;">Download</button>
+        </div>
+    </div>
+</div>
+<script src="assets/js/ipaddr.min.js?v=2.0.1"></script>
+<script src="assets/js/base64.min.js?v=3.7.7"></script>
+<script src="assets/js/script.js?v=1.2"></script>
+</body>
+</html>
