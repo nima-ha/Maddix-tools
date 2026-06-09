@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Maddix Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">M</div>
+        <div>
+          <div class="brand-name">Maddix<span>Tools</span></div>
+          <div class="brand-sub" data-i18n="brandSub">Security toolkit</div>
+        </div>
+      </div>
+
+      <div class="search-wrap">
+        <input id="navSearch" class="search-input" type="search" data-i18n-placeholder="searchPlaceholder" placeholder="Search tools">
+      </div>
+
+      <nav id="nav" class="nav"></nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-actions">
+          <button class="ghost-btn" id="langToggle" type="button">EN</button>
+          <button class="ghost-btn" id="themeToggle" type="button">🌙</button>
+          <button class="ghost-btn" id="readmeToggle" type="button" data-i18n="readmeBtn">README</button>
+        </div>
+        <a class="github-link" href="https://github.com/mohammadmehrani" target="_blank" rel="noreferrer">
+          <span>github.com/mohammadmehrani</span>
+        </a>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="menu-btn" id="menuToggle" type="button" aria-label="Toggle menu">☰</button>
+        <div class="topbar-copy">
+          <h1 id="pageTitle">Maddix Tools</h1>
+          <p id="pageSubtitle" data-i18n="pageSubtitle">Toolkit for reconnaissance, payload generation, networking and labs.</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost-btn" id="topLangToggle" type="button">EN</button>
+          <button class="ghost-btn" id="topThemeToggle" type="button">🌙</button>
+        </div>
+      </header>
+
+      <main id="content" class="content" aria-live="polite"></main>
+      <footer class="footer">
+        <div class="footer-copy">
+          <span data-i18n="footerLine">Built by Mohammad Mehrani.</span>
+          <span class="footer-muted">Maddix Tools on GitHub</span>
+        </div>
+        <a class="footer-btn" href="https://github.com/mohammadmehrani" target="_blank" rel="noreferrer">
+          <span data-i18n="footerBtn">Visit GitHub</span>
+        </a>
+      </footer>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="readmeModal" hidden>
+    <div class="modal">
+      <button class="modal-close" id="readmeClose" type="button">✕</button>
+      <h2 data-i18n="readmeTitle">README</h2>
+      <p data-i18n="readmeBody">Maddix Tools is a browser-based security workstation with bilingual UI, dark mode, and local state for fast switching between tools.</p>
+      <h3 data-i18n="creatorTitle">Creator</h3>
+      <p><strong>Mohammad Mehrani</strong></p>
+      <p><a href="https://github.com/mohammadmehrani" target="_blank" rel="noreferrer">github.com/mohammadmehrani</a></p>
+      <h3 data-i18n="deployTitle">Deploy</h3>
+      <p data-i18n="deployBody">Static hosting works well for GitHub Pages or a Vercel subdomain.</p>
+    </div>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
