@@ -137,7 +137,8 @@ export function init(lang) {
   function fetchShells() {
     fetch('/api/shells')
       .then(r => r.json())
-      .then(shells => {
+      .then(data => {
+        const shells = data.shells || data;
         if (Array.isArray(shells) && shells.length > 0) {
           els.shellSelector.innerHTML = '<option value="auto">' + t('تشخیص خودکار', 'Auto detect') + '</option>';
           shells.forEach(s => {
@@ -171,7 +172,7 @@ export function init(lang) {
       reconnectAttempt = 0;
       setStatus('online', t('متصل', 'Connected'));
       if (els.shellSelector.value !== 'auto') {
-        ws.send(JSON.stringify({ type: 'shell', id: els.shellSelector.value }));
+        ws.send(JSON.stringify({ type: 'shell', shell: els.shellSelector.value }));
       }
       if (useFallback) {
         logToFallback(t('🔗 به سرور متصل شد.', '🔗 Connected to server.'), '#00d4ff');
@@ -416,7 +417,7 @@ export function init(lang) {
   els.shellSelector.addEventListener('change', () => {
     const val = els.shellSelector.value;
     if (ws && ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ type: 'shell', id: val }));
+      ws.send(JSON.stringify({ type: 'shell', shell: val }));
     }
   });
 

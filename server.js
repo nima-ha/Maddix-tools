@@ -119,6 +119,7 @@ wss.on('connection', (ws, req) => {
           }
           shellProcess = null;
         });
+        ws.send(JSON.stringify({ type: 'shell', name: `${shell.cmd} (${shellType})` }));
         ws.send(JSON.stringify({ type: 'info', message: `Shell started: ${shell.cmd}` }));
         return;
       }
