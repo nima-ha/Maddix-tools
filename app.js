@@ -120,6 +120,12 @@ const i18n = {
       'cdn-finder-desc': 'Find fast CDN edge IPs from Cloudflare, Gcore, Akamai, Google, Azure',
       'nova-install': 'NovaProxy Wizard',
       'nova-install-desc': 'Step-by-step NovaProxy deploy wizard for Cloudflare Workers',
+      'regex-tester': 'Regex Tester',
+      'regex-tester-desc': 'Test and debug regular expressions in real-time',
+      'cipher-tools': 'Cipher Tools',
+      'cipher-tools-desc': 'ROT13, Caesar, Atbash, and Vigenère encryption',
+      'port-reference': 'Port Reference',
+      'port-reference-desc': '85 well-known TCP/UDP ports reference',
     },
     close: 'Close',
     loading: 'Loading...',
@@ -231,6 +237,12 @@ const i18n = {
       'cdn-finder-desc': 'یافتن IPهای سریع CDN از Cloudflare، Gcore، Akamai، Google، Azure',
       'nova-install': 'ویزارد NovaProxy',
       'nova-install-desc': 'راهنمای گام به گام استقرار NovaProxy روی Cloudflare Workers',
+      'regex-tester': 'آزمایشگر Regex',
+      'regex-tester-desc': 'تست و دیباگ عبارات منظم به صورت زنده',
+      'cipher-tools': 'ابزارهای رمز',
+      'cipher-tools-desc': 'رمزنگاری ROT13، سزار، اتبش و ویژنر',
+      'port-reference': 'مرجع پورت‌ها',
+      'port-reference-desc': '۸۵ پورت معروف TCP/UDP',
     },
     close: 'بستن',
     loading: 'در حال بارگذاری...',
@@ -280,6 +292,8 @@ const TOOLS = [
   { id:'spy-tools', cat:'utility' },
   { id:'password-tools', cat:'utility' }, { id:'qr-generator', cat:'utility' },
   { id:'text-tools', cat:'utility' },
+  { id:'regex-tester', cat:'utility' }, { id:'cipher-tools', cat:'crypto' },
+  { id:'port-reference', cat:'utility' },
 ];
 
 const TOOL_MAP = {}; TOOLS.forEach(t => { TOOL_MAP[t.id] = t; });
@@ -372,17 +386,7 @@ function render() {
       <div id="drawerBody" style="flex:1;overflow-y:auto;padding:16px;min-height:200px"></div>
     </div>
 
-    <!-- Command Palette -->
-    <div id="cmdPalette" class="hidden" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:80;display:flex;align-items:flex-start;justify-content:center;padding-top:15vh;background:rgba(0,0,0,.5)">
-      <div style="width:100%;max-width:520px;background:var(--background);border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.3);overflow:hidden">
-        <div style="display:flex;align-items:center;padding:0 16px;border-bottom:1px solid var(--border)">
-          <span style="color:var(--muted-foreground);margin-right:8px">🔍</span>
-          <input id="cmdInput" type="text" placeholder="${state.lang==='fa'?'ابزارها را جستجو کنید... (Esc = خروج)':'Search tools... (Esc = close)'}" style="flex:1;padding:14px 8px;border:none;background:transparent;color:var(--foreground);font-size:.9375rem;outline:none">
-          <span style="font-size:.6875rem;padding:3px 6px;background:var(--muted);border-radius:4px;color:var(--muted-foreground)">Ctrl+K</span>
-        </div>
-        <div id="cmdResults" style="max-height:360px;overflow-y:auto;padding:8px"></div>
-      </div>
-    </div>
+
   `;
 
   bindEvents();
@@ -571,8 +575,10 @@ function bindEvents() {
     if (!cp) return;
     cp.classList.remove('hidden');
     const input = document.getElementById('cmdInput');
-    if (input) { input.value = ''; setTimeout(() => input.focus(), 50); }
+    if (input) { input.value = ''; input.placeholder = state.lang==='fa'?'جستجوی ابزارها...':'Search tools...'; setTimeout(() => input.focus(), 50); }
     renderCmdResults('');
+    var tc = document.getElementById('cmdToolCount');
+    if (tc) tc.textContent = TOOLS.length + (state.lang==='fa'?' ابزار':' tools');
   }
   function closeCmdPalette() {
     const cp = document.getElementById('cmdPalette');
@@ -611,9 +617,20 @@ function bindEvents() {
   if (cmdInput) {
     cmdInput.addEventListener('input', (e) => renderCmdResults(e.target.value));
     cmdInput.addEventListener('keydown', (e) => {
+      var items = document.querySelectorAll('.cmd-result');
       if (e.key === 'Enter') {
-        const first = document.querySelector('.cmd-result');
-        if (first) { closeCmdPalette(); openTool(first.dataset.id); }
+        var sel = document.querySelector('.cmd-result.hover') || items[0];
+        if (sel) { closeCmdPalette(); openTool(sel.dataset.id); }
+        return;
+      }
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        var idx = -1;
+        items.forEach(function(el,i){ if (el.classList.contains('hover')) idx=i; });
+        items.forEach(function(el){ el.classList.remove('hover'); el.style.background=''; el.style.color=''; });
+        if (e.key === 'ArrowDown') idx = Math.min(idx+1, items.length-1);
+        else idx = Math.max(idx-1, 0);
+        if (items[idx]) { items[idx].classList.add('hover'); items[idx].style.background='var(--accent)'; items[idx].style.color='#fff'; items[idx].scrollIntoView({block:'nearest'}); }
       }
     });
   }

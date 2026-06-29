@@ -145,3 +145,8 @@ footer{height:100pt;padding-top:20pt;text-align:center;color:var(--muted-foregro
 .dhtab-content{animation:fadeIn .2s ease}
 [data-dnsprov]{transition:all .2s}
 [data-dnsprov].active{background:var(--action);color:#fff;border-color:var(--action)}
+.cmd-result:hover{background:var(--accent)!important;color:var(--accent-foreground)!important}
+#cmdResults::-webkit-scrollbar{width:6px}
+#cmdResults::-webkit-scrollbar-track{background:transparent}
+#cmdResults::-webkit-scrollbar-thumb{background:var(--muted);border-radius:3px}
+#cmdResults::-webkit-scrollbar-thumb:hover{background:var(--muted-foreground)}
