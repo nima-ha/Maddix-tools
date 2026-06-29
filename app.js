@@ -26,6 +26,8 @@ const i18n = {
     search: 'Search tools...',
     footer: 'Built by Nima Ha',
     categories: {
+      'red-team': 'Red Team',
+      'blue-team': 'Blue Team',
       recon: 'Network & Reconnaissance',
       payload: 'Payload Generation',
       system: 'System & Shell',
@@ -34,6 +36,18 @@ const i18n = {
       utility: 'Utilities',
     },
     tools: {
+      'terminal-ngrok': 'Terminal + Ngrok',
+      'terminal-ngrok-desc': 'Real browser terminal with WebSocket, multi-shell, and ngrok tunnel',
+      'google-dorks': 'Google Dorks',
+      'google-dorks-desc': '160+ Google dork queries for penetration testing',
+      'fsociety-tools': 'Fsociety Toolkit',
+      'fsociety-tools-desc': 'Complete fsociety command reference with 44 tools',
+      'msf-commands': 'MSF & Kali Commands',
+      'msf-commands-desc': 'Metasploit and Kali Linux command reference with payload generator',
+      'tunnel-tools': 'Tunnel Tools',
+      'tunnel-tools-desc': '15 tunnel/proxy tools: ngrok, Cloudflare Tunnel, bore, frp, chisel, and more',
+      'env-wizard': 'Env Wizard',
+      'env-wizard-desc': 'Build custom terminal environments with shell, tools, ngrok, and auth',
       'ip-scanner': 'IP Scanner',
       'ip-scanner-desc': 'Scan IP ranges, CIDR blocks, and ports with real-time progress',
       'ip-info': 'IP Info',
@@ -111,8 +125,10 @@ const i18n = {
     navTools: 'ابزارها',
     navAbout: 'درباره',
     search: 'جستجوی ابزارها...',
-    footer: 'ساخته شده توسط محمد مهرانی',
+    footer: 'ساخته شده توسط Nima Ha',
     categories: {
+      'red-team': 'تیم قرمز',
+      'blue-team': 'تیم آبی',
       recon: 'شبکه و شناسایی',
       payload: 'تولید پیلود',
       system: 'سیستم و شل',
@@ -121,6 +137,18 @@ const i18n = {
       utility: 'ابزارهای کاربردی',
     },
     tools: {
+      'terminal-ngrok': 'ترمینال + Ngrok',
+      'terminal-ngrok-desc': 'ترمینال واقعی با WebSocket، شل‌های چندگانه و تونل ngrok',
+      'google-dorks': 'گوگل دورک',
+      'google-dorks-desc': '۱۶۰+ کوئری گوگل دورک برای تست نفوذ',
+      'fsociety-tools': 'ابزارهای Fsociety',
+      'fsociety-tools-desc': 'راهنمای کامل ابزارهای fsociety با ۴۴ ابزار',
+      'msf-commands': 'دستورات MSF و Kali',
+      'msf-commands-desc': 'راهنمای دستورات Metasploit و Kali لینوکس با تولیدکننده پیلود',
+      'tunnel-tools': 'ابزارهای تونل',
+      'tunnel-tools-desc': '۱۵ ابزار تونل و پروکسی: ngrok، Cloudflare Tunnel، bore، frp، chisel و بیشتر',
+      'env-wizard': 'ویزارد محیط',
+      'env-wizard-desc': 'ساخت محیط ترمینال سفارشی با شل، ابزار، ngrok و احراز هویت',
       'ip-scanner': 'اسکنر آی‌پی',
       'ip-scanner-desc': 'اسکن رنج آی‌پی، CIDR و پورت با نمایش پیشرفت',
       'ip-info': 'اطلاعات آی‌پی',
@@ -195,26 +223,40 @@ const i18n = {
 function tr(key) { const keys = key.split('.'); let v = i18n[state.lang]; for (const k of keys) { v = v?.[k]; } return v ?? key; }
 
 // ── Tool Registry ─────────────────────────────────────
-const CATEGORIES = ['recon', 'payload', 'system', 'crypto', 'config', 'utility'];
-const CATEGORY_EMOJI = { recon:'🌐', payload:'💣', system:'🖥️', crypto:'🔐', config:'⚙️', utility:'📦' };
+const CATEGORIES = ['red-team', 'blue-team', 'recon', 'payload', 'system', 'crypto', 'config', 'utility'];
+const CATEGORY_EMOJI = { 'red-team':'🔴','blue-team':'🔵', recon:'🌐', payload:'💣', system:'🖥️', crypto:'🔐', config:'⚙️', utility:'📦' };
 
 const TOOLS = [
-  { id:'ip-scanner',     cat:'recon' },  { id:'ip-info',        cat:'recon' },
-  { id:'dns-lookup',     cat:'recon' },  { id:'network-checker',cat:'recon' },
-  { id:'port-scanner',   cat:'recon' },  { id:'cdn-scanner',    cat:'recon' },
-  { id:'reverse-shell',  cat:'payload' },{ id:'xss-payloads',   cat:'payload' },
-  { id:'sqli-payloads',  cat:'payload' },{ id:'lfi-payloads',   cat:'payload' },
-  { id:'msf-venom',      cat:'payload' },
-  { id:'linux-cmds',     cat:'system' }, { id:'powershell-cmds',cat:'system' },
-  { id:'tty-shell',      cat:'system' }, { id:'file-transfer',  cat:'system' }, { id:'obfuscated-files',cat:'system' },
-  { id:'encoder',        cat:'crypto' }, { id:'hash-generator', cat:'crypto' },
-  { id:'aes-crypto',     cat:'crypto' }, { id:'uuid-gen',       cat:'crypto' },
-  { id:'v2ray-config',   cat:'config' }, { id:'sni-spoof',      cat:'config' },
-  { id:'http-repeater',  cat:'config' },
-  { id:'notepad',        cat:'utility' }, { id:'rss-feeds',      cat:'utility' },
-  { id:'mega-scanner',   cat:'recon' },  { id:'network-diag',   cat:'recon' },
-  { id:'dns-hunter',     cat:'recon' },  { id:'cdn-finder',     cat:'recon' },
-  { id:'v2ray-modifier', cat:'config' }, { id:'nova-install',   cat:'config' },
+  // Red Team
+  { id:'reverse-shell',  cat:'red-team' }, { id:'xss-payloads',   cat:'red-team' },
+  { id:'sqli-payloads',  cat:'red-team' }, { id:'lfi-payloads',   cat:'red-team' },
+  { id:'msf-venom',      cat:'red-team' }, { id:'msf-commands',   cat:'red-team' },
+  { id:'fsociety-tools', cat:'red-team' },
+  // Blue Team
+  { id:'network-checker',cat:'blue-team' }, { id:'network-diag',  cat:'blue-team' },
+  { id:'dns-hunter',     cat:'blue-team' }, { id:'cdn-finder',    cat:'blue-team' },
+  { id:'cdn-scanner',    cat:'blue-team' }, { id:'dns-lookup',    cat:'blue-team' },
+  { id:'http-repeater',  cat:'blue-team' }, { id:'rss-feeds',     cat:'blue-team' },
+  { id:'notepad',        cat:'blue-team' },
+  // Recon
+  { id:'ip-scanner',     cat:'recon' },    { id:'ip-info',       cat:'recon' },
+  { id:'port-scanner',   cat:'recon' },    { id:'mega-scanner',  cat:'recon' },
+  { id:'google-dorks',   cat:'recon' },    { id:'sni-spoof',     cat:'recon' },
+  // Payload
+  { id:'linux-cmds',     cat:'payload' },  { id:'powershell-cmds',cat:'payload' },
+  { id:'tty-shell',      cat:'payload' },  { id:'file-transfer', cat:'payload' },
+  { id:'obfuscated-files',cat:'payload' },
+  // System
+  { id:'terminal-ngrok', cat:'system' }, { id:'env-wizard', cat:'system' },
+  { id:'tunnel-tools',   cat:'system' },
+  // Crypto
+  { id:'encoder',        cat:'crypto' },   { id:'hash-generator',cat:'crypto' },
+  { id:'aes-crypto',     cat:'crypto' },   { id:'uuid-gen',      cat:'crypto' },
+  // Config
+  { id:'v2ray-config',   cat:'config' },   { id:'v2ray-modifier',cat:'config' },
+  { id:'nova-install',   cat:'config' },
+  // Utility
+  { id:'spy-tools', cat:'utility' },
 ];
 
 const TOOL_MAP = {}; TOOLS.forEach(t => { TOOL_MAP[t.id] = t; });
@@ -330,7 +372,7 @@ function renderToolGrid() {
   if (tools.length === 0) { grid.innerHTML = ''; noRes.classList.remove('hidden'); return; }
   noRes.classList.add('hidden');
   grid.innerHTML = tools.map(tool => {
-    const emoji = { recon:'🌐',payload:'💣',system:'🖥️',crypto:'🔐',config:'⚙️',utility:'📦' }[tool.cat]||'🔧';
+    const emoji = { 'red-team':'🔴','blue-team':'🔵',recon:'🌐',payload:'💣',system:'🖥️',crypto:'🔐',config:'⚙️',utility:'📦' }[tool.cat]||'🔧';
     return `<div class="jn-card tool-card" data-tool="${tool.id}" style="cursor:pointer;padding:16px;border-radius:var(--radius)">
       <span class="card-emoji">${emoji}</span>
       <h3 style="margin:0 0 4px;font-size:1rem;font-weight:600;padding-right:2rem">${tr('tools.'+tool.id)}</h3>
