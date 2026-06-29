@@ -371,6 +371,18 @@ function render() {
       </div>
       <div id="drawerBody" style="flex:1;overflow-y:auto;padding:16px;min-height:200px"></div>
     </div>
+
+    <!-- Command Palette -->
+    <div id="cmdPalette" class="hidden" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:80;display:flex;align-items:flex-start;justify-content:center;padding-top:15vh;background:rgba(0,0,0,.5)">
+      <div style="width:100%;max-width:520px;background:var(--background);border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.3);overflow:hidden">
+        <div style="display:flex;align-items:center;padding:0 16px;border-bottom:1px solid var(--border)">
+          <span style="color:var(--muted-foreground);margin-right:8px">🔍</span>
+          <input id="cmdInput" type="text" placeholder="${state.lang==='fa'?'ابزارها را جستجو کنید... (Esc = خروج)':'Search tools... (Esc = close)'}" style="flex:1;padding:14px 8px;border:none;background:transparent;color:var(--foreground);font-size:.9375rem;outline:none">
+          <span style="font-size:.6875rem;padding:3px 6px;background:var(--muted);border-radius:4px;color:var(--muted-foreground)">Ctrl+K</span>
+        </div>
+        <div id="cmdResults" style="max-height:360px;overflow-y:auto;padding:8px"></div>
+      </div>
+    </div>
   `;
 
   bindEvents();
@@ -534,9 +546,79 @@ function bindEvents() {
   document.getElementById('drawerCloseBtn').addEventListener('click', closeDrawer);
   document.getElementById('drawerOverlay').addEventListener('click', closeDrawer);
 
-  // Keyboard: Escape to close drawer
+  // Keyboard shortcuts
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeDrawer();
+    if (e.key === 'Escape') {
+      const cp = document.getElementById('cmdPalette');
+      if (cp && !cp.classList.contains('hidden')) { closeCmdPalette(); return; }
+      closeDrawer();
+    }
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      toggleCmdPalette();
+    }
+  });
+
+  // Command Palette
+  function toggleCmdPalette() {
+    const cp = document.getElementById('cmdPalette');
+    if (!cp) return;
+    if (cp.classList.contains('hidden')) { openCmdPalette(); }
+    else { closeCmdPalette(); }
+  }
+  function openCmdPalette() {
+    const cp = document.getElementById('cmdPalette');
+    if (!cp) return;
+    cp.classList.remove('hidden');
+    const input = document.getElementById('cmdInput');
+    if (input) { input.value = ''; setTimeout(() => input.focus(), 50); }
+    renderCmdResults('');
+  }
+  function closeCmdPalette() {
+    const cp = document.getElementById('cmdPalette');
+    if (cp) cp.classList.add('hidden');
+  }
+  function renderCmdResults(q) {
+    const container = document.getElementById('cmdResults');
+    if (!container) return;
+    const query = (q || '').toLowerCase();
+    let results = TOOLS.filter(t => {
+      const title = tr('tools.'+t.id).toLowerCase();
+      const desc = tr('tools.'+t.id+'-desc').toLowerCase();
+      return !query || title.includes(query) || desc.includes(query) || t.id.includes(query);
+    });
+    if (query && results.length === 0) {
+      container.innerHTML = '<div style="padding:24px;text-align:center;color:var(--muted-foreground);font-size:.8125rem">'+(state.lang==='fa'?'نتیجه‌ای یافت نشد':'No results')+'</div>';
+      return;
+    }
+    if (!query) results = TOOLS;
+    container.innerHTML = results.slice(0, 20).map(t => {
+      const emoji = CATEGORY_EMOJI[t.cat]||'🔧';
+      return '<div class="cmd-result" data-id="'+t.id+'" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background .1s">'+
+        '<span style="font-size:1.1rem">'+emoji+'</span>'+
+        '<div style="flex:1"><div style="font-size:.8125rem;font-weight:500">'+tr('tools.'+t.id)+'</div><div style="font-size:.6875rem;color:var(--muted-foreground)">'+tr('tools.'+t.id+'-desc')+'</div></div>'+
+        '<span style="font-size:.625rem;padding:2px 6px;background:var(--muted);border-radius:4px;color:var(--muted-foreground)">'+tr('categories.'+t.cat).split(' ').pop()+'</span>'+
+      '</div>';
+    }).join('');
+    container.querySelectorAll('.cmd-result').forEach(el => {
+      el.addEventListener('click', () => {
+        closeCmdPalette();
+        openTool(el.dataset.id);
+      });
+    });
+  }
+  const cmdInput = document.getElementById('cmdInput');
+  if (cmdInput) {
+    cmdInput.addEventListener('input', (e) => renderCmdResults(e.target.value));
+    cmdInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const first = document.querySelector('.cmd-result');
+        if (first) { closeCmdPalette(); openTool(first.dataset.id); }
+      }
+    });
+  }
+  document.getElementById('cmdPalette')?.addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeCmdPalette();
   });
 
   // Mobile detection
