@@ -559,13 +559,34 @@ function loadPrefs() {
 // ── Rerender ───────────────────────────────────────────
 function rerender() {
   // Update only text nodes that change with language
-  document.getElementById('heroTitle').textContent = '🛠️ '+tr('brand');
+  var heroTitle = document.getElementById('heroTitle');
+  var heroSvg = heroTitle.querySelector('svg');
+  if (heroSvg) {
+    heroTitle.innerHTML = '';
+    heroTitle.appendChild(heroSvg.cloneNode(true));
+    heroTitle.appendChild(document.createTextNode(' '+tr('brand')));
+  } else {
+    heroTitle.textContent = tr('brand');
+  }
   document.getElementById('heroTagline').textContent = tr('tagline');
   document.getElementById('searchInput').placeholder = tr('search');
-  const navLinks = document.querySelectorAll('.nav-link');
-  if (navLinks[0]) navLinks[0].textContent = tr('navHome');
-  if (navLinks[1]) navLinks[1].textContent = tr('navTools');
-  if (navLinks[2]) navLinks[2].textContent = tr('navAbout');
+  document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(el => {
+    const s = el.dataset.section;
+    let label = '';
+    if (s === 'home') label = tr('navHome');
+    else if (s === 'tools') label = tr('navTools');
+    else if (s === 'about') label = tr('navAbout');
+    if (!label) return;
+    const svg = el.querySelector('svg');
+    if (svg) {
+      el.innerHTML = '';
+      el.appendChild(svg.cloneNode(true));
+      el.appendChild(document.createTextNode(' '+label));
+      el.dataset.section = s;
+    } else {
+      el.textContent = label;
+    }
+  });
   document.getElementById('langBtn').textContent = tr('langSwitch');
   document.querySelectorAll('.cat-filter').forEach(el => {
     const cat = el.dataset.cat;
@@ -578,15 +599,6 @@ function rerender() {
   const aboutDesc = document.getElementById('aboutDesc');
   if (aboutTitle) aboutTitle.textContent = state.lang==='fa'?'درباره مادیکس تولز':'About Maddix Tools';
   if (aboutDesc) aboutDesc.textContent = state.lang==='fa'?'مادیکس تولز یک ایستگاه کاری امنیتی مبتنی بر مرورگر است. شامل ابزارهای شناسایی، تولید پیلود، رمزنگاری، شبکه و اسکنر یکپارچه می‌باشد.':'Maddix Tools is a browser-based security workstation. Includes recon, payload, crypto, network, and unified scanner tools.';
-  // Mobile menu
-  const mobileTitle = document.querySelector('#mobileMenu > div > span');
-  if (mobileTitle) mobileTitle.textContent = tr('navTools');
-  document.querySelectorAll('.mobile-nav-link').forEach(el => {
-    const s = el.dataset.section;
-    if (s === 'home') el.textContent = tr('navHome');
-    else if (s === 'tools') el.textContent = tr('navTools');
-    else if (s === 'about') el.textContent = tr('navAbout');
-  });
   renderToolGrid();
 }
 
