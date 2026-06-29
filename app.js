@@ -52,6 +52,12 @@ const i18n = {
       'whois-lookup-desc': 'Domain WHOIS information lookup via public API',
       'subdomain-finder': 'Subdomain Finder',
       'subdomain-finder-desc': 'Discover subdomains using DNS brute force with 100 common names',
+      'password-tools': 'Password Tools',
+      'password-tools-desc': 'Password generator, strength analyzer, and HIBP breach checker',
+      'qr-generator': 'QR Generator',
+      'qr-generator-desc': 'Generate QR codes for text, URLs, WiFi, vCards, SMS, email, and phone',
+      'text-tools': 'Text Tools',
+      'text-tools-desc': 'Case conversion, sorting, dedup, stats, and text manipulation',
       'ip-scanner': 'IP Scanner',
       'ip-scanner-desc': 'Scan IP ranges, CIDR blocks, and ports with real-time progress',
       'ip-info': 'IP Info',
@@ -157,6 +163,12 @@ const i18n = {
       'whois-lookup-desc': 'جستجوی اطلاعات WHOIS دامنه با API عمومی',
       'subdomain-finder': 'یابنده ساب‌دامنه',
       'subdomain-finder-desc': 'کشف ساب‌دامنه با DNS brute force و ۱۰۰ اسم رایج',
+      'password-tools': 'ابزارهای رمز عبور',
+      'password-tools-desc': 'تولید کننده، تحلیل قدرت و بررسی نشت رمز عبور با HIBP',
+      'qr-generator': 'تولید QR کد',
+      'qr-generator-desc': 'تولید QR کد برای متن، URL، وای‌فای، مخاطب، SMS، ایمیل و تلفن',
+      'text-tools': 'ابزارهای متن',
+      'text-tools-desc': 'تبدیل حروف، مرتب‌سازی، حذف تکراری، آمار و دستکاری متن',
       'ip-scanner': 'اسکنر آی‌پی',
       'ip-scanner-desc': 'اسکن رنج آی‌پی، CIDR و پورت با نمایش پیشرفت',
       'ip-info': 'اطلاعات آی‌پی',
@@ -266,6 +278,8 @@ const TOOLS = [
   { id:'nova-install',   cat:'config' },
   // Utility
   { id:'spy-tools', cat:'utility' },
+  { id:'password-tools', cat:'utility' }, { id:'qr-generator', cat:'utility' },
+  { id:'text-tools', cat:'utility' },
 ];
 
 const TOOL_MAP = {}; TOOLS.forEach(t => { TOOL_MAP[t.id] = t; });
