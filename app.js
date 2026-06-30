@@ -33,6 +33,7 @@ const i18n = {
       system: 'System & Shell',
       crypto: 'Crypto & Encoding',
       config: 'Config & Manipulation',
+      'nova-proxy': 'Nova Proxy',
       utility: 'Utilities',
     },
     tools: {
@@ -120,6 +121,14 @@ const i18n = {
       'cdn-finder-desc': 'Find fast CDN edge IPs from Cloudflare, Gcore, Akamai, Google, Azure',
       'nova-install': 'NovaProxy Wizard',
       'nova-install-desc': 'Step-by-step NovaProxy deploy wizard for Cloudflare Workers',
+      'nova-proxy-worker': 'Nova-Proxy Worker',
+      'nova-proxy-worker-desc': 'Nova-Proxy: personal censorship-resistant proxy on Cloudflare Workers (2.2k★)',
+      'nova-wizard': 'Nova Wizard',
+      'nova-wizard-desc': 'Nova Wizard: local OAuth deployer for Nova Proxy on Cloudflare Workers',
+      'nova-proxy-app': 'Nova-Proxy App',
+      'nova-proxy-app-desc': 'Nova-Proxy local app: GSA, Domain Fronting, TLS fragment, MITM, smart routing',
+      'nova-radar': 'NovaRadar',
+      'nova-radar-desc': 'NovaRadar: Cloudflare IP scanner with TCP+TLS verification (Go+React)',
       'regex-tester': 'Regex Tester',
       'regex-tester-desc': 'Test and debug regular expressions in real-time',
       'cipher-tools': 'Cipher Tools',
@@ -222,6 +231,7 @@ const i18n = {
       system: 'سیستم و شل',
       crypto: 'رمزنگاری و انکود',
       config: 'تنظیمات و دستکاری',
+      'nova-proxy': 'نوا پروکسی',
       utility: 'ابزارهای کاربردی',
     },
     tools: {
@@ -309,6 +319,14 @@ const i18n = {
       'cdn-finder-desc': 'یافتن IPهای سریع CDN از Cloudflare، Gcore، Akamai، Google، Azure',
       'nova-install': 'ویزارد NovaProxy',
       'nova-install-desc': 'راهنمای گام به گام استقرار NovaProxy روی Cloudflare Workers',
+      'nova-proxy-worker': 'نوا پروکسی ورکر',
+      'nova-proxy-worker-desc': 'نوا پروکسی: پروکسی ضدسانسور روی Cloudflare Workers (۲.۲k★)',
+      'nova-wizard': 'نوا ویزارد',
+      'nova-wizard-desc': 'نوا ویزارد: دیپلوی‌ر محلی OAuth برای نوا پروکسی روی Worker',
+      'nova-proxy-app': 'نوا پروکسی اپ',
+      'nova-proxy-app-desc': 'نرم‌افزار محلی نوا پروکسی: GSA، Domain Fronting، TLS fragment، MITM، مسیریابی هوشمند',
+      'nova-radar': 'نوا رادار',
+      'nova-radar-desc': 'نوا رادار: اسکنر IP کلاودفلر با تأیید TCP+TLS (Go+React)',
       'regex-tester': 'آزمایشگر Regex',
       'regex-tester-desc': 'تست و دیباگ عبارات منظم به صورت زنده',
       'cipher-tools': 'ابزارهای رمز',
@@ -399,8 +417,8 @@ const i18n = {
 function tr(key) { const keys = key.split('.'); let v = i18n[state.lang]; for (const k of keys) { v = v?.[k]; } return v ?? key; }
 
 // ── Tool Registry ─────────────────────────────────────
-const CATEGORIES = ['red-team', 'blue-team', 'recon', 'payload', 'system', 'crypto', 'config', 'utility'];
-const CATEGORY_EMOJI = { 'red-team':'🔴','blue-team':'🔵', recon:'🌐', payload:'💣', system:'🖥️', crypto:'🔐', config:'⚙️', utility:'📦' };
+const CATEGORIES = ['red-team', 'blue-team', 'recon', 'payload', 'system', 'crypto', 'config', 'nova-proxy', 'utility'];
+const CATEGORY_EMOJI = { 'red-team':'🔴','blue-team':'🔵', recon:'🌐', payload:'💣', system:'🖥️', crypto:'🔐', config:'⚙️', 'nova-proxy':'🛡️', utility:'📦' };
 
 const TOOLS = [
   // Red Team
@@ -430,8 +448,11 @@ const TOOLS = [
   { id:'encoder',        cat:'crypto' },   { id:'hash-generator',cat:'crypto' },
   { id:'aes-crypto',     cat:'crypto' },   { id:'uuid-gen',      cat:'crypto' },
   // Config
-  { id:'v2ray-config',   cat:'config' },   { id:'v2ray-modifier',cat:'config' },
-  { id:'nova-install',   cat:'config' },
+  // Nova Proxy
+  { id:'nova-install',   cat:'nova-proxy' }, { id:'v2ray-config',  cat:'nova-proxy' },
+  { id:'v2ray-modifier', cat:'nova-proxy' }, { id:'nova-proxy-worker', cat:'nova-proxy' },
+  { id:'nova-wizard',    cat:'nova-proxy' }, { id:'nova-proxy-app', cat:'nova-proxy' },
+  { id:'nova-radar',     cat:'nova-proxy' },
   // Utility
   { id:'spy-tools', cat:'utility' },
   { id:'password-tools', cat:'utility' }, { id:'qr-generator', cat:'utility' },
