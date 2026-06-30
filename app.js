@@ -180,6 +180,10 @@ const i18n = {
       'system-info-desc': 'View browser, screen, and system information',
       'case-converter': 'Case Converter',
       'case-converter-desc': 'Convert between UPPER, lower, Title, camelCase, snake_case and more',
+      'emoji-picker': 'Emoji Picker',
+      'emoji-picker-desc': 'Search and copy emojis by category (700+ emojis)',
+      'unit-converter': 'Unit Converter',
+      'unit-converter-desc': 'Convert length, weight, temperature, area, volume, speed',
     },
     close: 'Close',
     loading: 'Loading...',
@@ -351,6 +355,10 @@ const i18n = {
       'system-info-desc': 'اطلاعات مرورگر، صفحه و سیستم',
       'case-converter': 'تبدیل حروف',
       'case-converter-desc': 'تبدیل بین انواع casing: بزرگ، کوچک، camelCase، snake_case و...',
+      'emoji-picker': 'انتخاب ایموجی',
+      'emoji-picker-desc': 'جستجو و کپی ایموجی در ۹ دسته (۷۰۰+ ایموجی)',
+      'unit-converter': 'مبدل واحد',
+      'unit-converter-desc': 'تبدیل واحدهای طول، وزن، دما، مساحت، حجم و سرعت',
     },
     close: 'بستن',
     loading: 'در حال بارگذاری...',
@@ -420,6 +428,7 @@ const TOOLS = [
   { id:'html-entities', cat:'utility' },
   { id:'date-calculator', cat:'utility' }, { id:'system-info', cat:'utility' },
   { id:'case-converter', cat:'utility' },
+  { id:'emoji-picker', cat:'utility' }, { id:'unit-converter', cat:'utility' },
 ];
 
 const TOOL_MAP = {}; TOOLS.forEach(t => { TOOL_MAP[t.id] = t; });
